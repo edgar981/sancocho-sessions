@@ -8,7 +8,7 @@ export const EVENT = {
   date: 'VIERNES 04 SEPTIEMBRE',
 
   // Hora (fila HORA del rider). Escríbela como quieras verla.
-  time: '08:00 pm',
+  time: '08:30 pm',
 
   // Lugar
   venueName: 'Bulevar Salsa Bar',

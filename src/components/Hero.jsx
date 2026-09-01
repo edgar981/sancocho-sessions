@@ -52,7 +52,9 @@ export default function Hero({ revealed }) {
             position: 'relative',
             zIndex: 1,
             margin: 0,
-            fontSize: 'clamp(76px,25.5vw,116px)',
+            // 22vw mantiene "SANCOCHO" (la palabra más larga) dentro del
+            // contenedor en 360px y 390px, sin overflow horizontal.
+            fontSize: 'clamp(66px,22vw,106px)',
             lineHeight: 0.78,
             fontWeight: 900,
             letterSpacing: '-.012em',
@@ -63,13 +65,15 @@ export default function Hero({ revealed }) {
           <span style={{ display: 'block', color: '#FF5A16', ...rise(0.3) }}>Sessions</span>
         </h1>
 
-        {/* Sello: barra oscura con filetes crema, textura de tinta. Se estampa una vez. */}
+        {/* Sello: barra oscura con filetes crema, textura de tinta. Se estampa una vez.
+            Full-bleed (120vw, centrado en el viewport ignorando el padding): las
+            líneas cruzan de borde a borde y se salen por ambos extremos. */}
         <div
           style={{
             position: 'absolute',
-            left: '-4%',
+            left: '50%',
             top: '31%',
-            width: '108%',
+            width: '120vw',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -77,7 +81,7 @@ export default function Hero({ revealed }) {
             zIndex: 5,
             transformOrigin: 'center',
             opacity: stampIn ? 1 : 0,
-            transform: `rotate(-6.5deg) scale(${stampIn ? 1 : 1.45})`,
+            transform: `translateX(-50%) rotate(-6.5deg) scale(${stampIn ? 1 : 1.45})`,
             transition: 'opacity .28s ease, transform .4s cubic-bezier(.2,1.5,.4,1)',
           }}
         >

@@ -118,7 +118,9 @@ export default function Rsvp() {
         <span style={{ flex: 1, height: '2px', background: 'rgba(240,231,214,.22)' }} />
       </div>
 
-      <h2 style={{ margin: '0 0 24px', fontSize: 'clamp(62px,19vw,88px)', lineHeight: 0.8, fontWeight: 900, letterSpacing: '-.01em', textTransform: 'uppercase' }}>
+      {/* 17vw: "CONFIRMA TU" entra en una sola línea en 390px; line-height 0.9
+          evita que las dos líneas se encimen (glifos altos de Big Shoulders). */}
+      <h2 style={{ margin: '0 0 24px', fontSize: 'clamp(56px,17vw,84px)', lineHeight: 0.9, fontWeight: 900, letterSpacing: '-.01em', textTransform: 'uppercase' }}>
         Confirma tu
         <br />
         <span style={{ color: '#FF5A16' }}>asistencia</span>
