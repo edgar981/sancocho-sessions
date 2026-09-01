@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { EVENT } from '../config.js';
 
 const MONO = "'DM Mono', ui-monospace, monospace";
@@ -25,6 +25,51 @@ export default function Hero({ revealed }) {
 
   const rise = (delay) => ({ animation: `rise .8s cubic-bezier(.2,.7,.3,1) ${delay}s both` });
   const venueLine = `${EVENT.venueName}, ${EVENT.city}`.toUpperCase();
+
+  // Scroll animado y controlado hacia el RSVP (en vez del salto nativo).
+  // ~1.4s ease-in-out, para que se perciban lineup/rider al pasar. Cancelable
+  // con cualquier scroll/toque/tecla. Con reduced-motion: salto directo nativo.
+  const scrollCancel = useRef(null);
+  const goToRsvp = (e) => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // salto nativo instantáneo
+    const el = document.getElementById('rsvp');
+    if (!el) return;
+    e.preventDefault();
+    if (scrollCancel.current) scrollCancel.current(); // corta cualquier animación en curso
+
+    const startY = window.scrollY;
+    const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const targetY = Math.min(maxY, startY + el.getBoundingClientRect().top - 20); // 20 = scroll-margin-top
+    const dist = targetY - startY;
+    if (Math.abs(dist) < 1) return;
+
+    const DURATION = 1400;
+    const t0 = performance.now();
+    const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2); // easeInOutQuad
+    const cancelEvents = ['wheel', 'touchstart', 'touchmove', 'mousedown', 'keydown'];
+
+    let raf = 0;
+    let done = false;
+    const stop = () => {
+      if (done) return;
+      done = true;
+      cancelAnimationFrame(raf);
+      cancelEvents.forEach((ev) => window.removeEventListener(ev, stop));
+      scrollCancel.current = null;
+    };
+    // Se detiene donde va y devuelve el control ante input de la usuaria.
+    cancelEvents.forEach((ev) => window.addEventListener(ev, stop, { passive: true }));
+    scrollCancel.current = stop;
+
+    const step = (now) => {
+      if (done) return;
+      const t = Math.min(1, (now - t0) / DURATION);
+      window.scrollTo(0, startY + dist * ease(t));
+      if (t < 1) raf = requestAnimationFrame(step);
+      else stop();
+    };
+    raf = requestAnimationFrame(step);
+  };
 
   return (
     <section
@@ -158,6 +203,7 @@ export default function Hero({ revealed }) {
       {/* RSVP jump button — la flecha ↓ se mueve en bucle (#4) */}
       <a
         href="#rsvp"
+        onClick={goToRsvp}
         className="btn-o"
         style={{
           display: 'flex',
