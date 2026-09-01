@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Global base (ported 1:1 from the approved design) ---- */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  background: #efe7d8;
+  color: #14120f;
+  -webkit-font-smoothing: antialiased;
+}
+* {
+  box-sizing: border-box;
+}
+a {
+  color: #c8271a;
+  text-decoration: none;
+}
+a:hover {
+  color: #ff5b04;
+}
+
+/* ---- Keyframes still driven by CSS (marquee + ambient background blobs) ---- */
+@keyframes marq {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes drift1 {
+  0% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8%, 6%, 0) scale(1.2);
+  }
+  100% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+}
+@keyframes drift2 {
+  0% {
+    transform: translate3d(10%, 8%, 0) scale(1.1);
+  }
+  50% {
+    transform: translate3d(-8%, -6%, 0) scale(1.3);
+  }
+  100% {
+    transform: translate3d(10%, 8%, 0) scale(1.1);
+  }
+}
+
+/* Respect reduced-motion: kill ambient/marquee loops.
+   Framer Motion handles its own reduced-motion via useReducedMotion(). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
