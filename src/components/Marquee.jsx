@@ -1,43 +1,47 @@
 const TEXT = 'SANCOCHO SESSIONS · VOL. 1 · SIN SANCOCHO · CERO VALLENATO · BOGOTÁ · ';
 
 /**
- * Infinite ticker. Two identical spans + translateX(-50%) = seamless loop.
- * `duration` sets the speed — top/bottom use different values so they never
- * look synced. The band has a FIXED height and centers the text vertically
- * (#4), so both ribbons share the same optical padding.
+ * Cinta infinita (variante visual). Dos modos:
+ *  - "bar":  franja naranja con texto oscuro (arriba del hero).
+ *  - "line": franja transparente con texto tenue y filetes (footer).
+ * Velocidades distintas (duration) para que no se vean sincronizadas.
  */
-export default function Marquee({ duration = 24, border = 'top', fullBleed = false }) {
-  const borderKey = border === 'top' ? 'borderTop' : 'borderBottom';
+export default function Marquee({ duration = 21, variant = 'bar' }) {
+  const isBar = variant === 'bar';
+
+  const band = {
+    display: 'flex',
+    alignItems: 'center',
+    height: '38px',
+    overflow: 'hidden',
+    width: '100%',
+    ...(isBar
+      ? {
+          background: '#FF5A16',
+          color: '#131010',
+          borderBottom: '1px solid rgba(240,231,214,.2)',
+        }
+      : {
+          borderTop: '1px solid rgba(240,231,214,.2)',
+          borderBottom: '1px solid rgba(240,231,214,.2)',
+        }),
+  };
+
+  const track = {
+    display: 'flex',
+    width: 'max-content',
+    animation: `marq ${duration}s linear infinite`,
+    fontFamily: '"DM Mono", ui-monospace, monospace',
+    fontSize: '10.5px',
+    letterSpacing: '.26em',
+    ...(isBar ? { fontWeight: 500 } : { color: 'rgba(240,231,214,.4)' }),
+  };
 
   return (
-    <div
-      aria-hidden="true"
-      style={{
-        display: 'flex',
-        alignItems: 'center', // vertical centering
-        height: '44px', // defined band height
-        overflow: 'hidden',
-        [borderKey]: '1.5px solid rgba(20,18,15,.18)',
-        // full-bleed top ribbon spans the viewport even inside the 480px column
-        ...(fullBleed
-          ? { width: '100vw', position: 'relative', left: '50%', transform: 'translateX(-50%)' }
-          : {}),
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          width: 'max-content',
-          animation: `marq ${duration}s linear infinite`,
-          fontFamily: '"Space Mono", monospace',
-          fontSize: '10.5px',
-          letterSpacing: '.2em',
-          color: 'rgba(20,18,15,.38)',
-          ...(fullBleed ? { paddingLeft: '22px' } : {}),
-        }}
-      >
-        <span style={{ paddingRight: '24px', whiteSpace: 'nowrap' }}>{TEXT}</span>
-        <span style={{ paddingRight: '24px', whiteSpace: 'nowrap' }}>{TEXT}</span>
+    <div aria-hidden="true" style={band}>
+      <div style={track}>
+        <span style={{ paddingRight: '26px', whiteSpace: 'nowrap' }}>{TEXT}</span>
+        <span style={{ paddingRight: '26px', whiteSpace: 'nowrap' }}>{TEXT}</span>
       </div>
     </div>
   );

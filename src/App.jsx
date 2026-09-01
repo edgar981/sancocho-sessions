@@ -8,12 +8,11 @@ import Faq from './components/Faq.jsx';
 import Gate from './components/Gate.jsx';
 import { SHOW_FAQ } from './config.js';
 
-const NOISE =
-  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.42'/></svg>\")";
+const GRAIN =
+  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.5'/></svg>\")";
 
 export default function App() {
-  // El hero se renderiza siempre; la pantalla de acceso (Gate) va encima hasta
-  // que el usuario entra. Sin storage: se muestra en cada carga (#1).
+  // El hero se renderiza siempre; la reja (Gate) va encima hasta entrar (#1 ronda 3).
   const [revealed, setRevealed] = useState(false);
 
   return (
@@ -22,84 +21,69 @@ export default function App() {
         position: 'relative',
         minHeight: '100vh',
         overflow: 'hidden',
-        background: '#EFE7D8',
-        fontFamily: 'Archivo, system-ui, sans-serif',
-        color: '#14120F',
+        background: '#131010',
+        fontFamily: "'Big Shoulders Display', system-ui, sans-serif",
+        color: '#F0E7D6',
       }}
     >
-      {/* SVG filter del sello (grano / bordes irregulares de estampado) */}
+      {/* Filtro de tinta para el sello (textura de estampado) */}
       <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
-        <filter id="stampGrain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" seed="7" result="n" />
+        <filter id="ink">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="11" result="n" />
           <feColorMatrix
             in="n"
             type="matrix"
-            values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 1.4 0 0 0 -0.42"
+            values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0.55 0 0 0 -0.30"
             result="m"
           />
           <feComposite in="SourceGraphic" in2="m" operator="out" />
         </filter>
       </svg>
 
-      {/* Ambient background: two drifting warm blobs + a subtle grain overlay */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-        <div
-          style={{
-            position: 'absolute',
-            width: '120vw',
-            height: '120vw',
-            left: '-35vw',
-            top: '-30vw',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at center,rgba(255,91,4,.22),rgba(255,91,4,0) 60%)',
-            filter: 'blur(30px)',
-            animation: 'drift1 30s ease-in-out infinite',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            width: '110vw',
-            height: '110vw',
-            right: '-45vw',
-            bottom: '-20vh',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at center,rgba(200,39,26,.14),rgba(200,39,26,0) 58%)',
-            filter: 'blur(36px)',
-            animation: 'drift2 38s ease-in-out infinite',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            mixBlendMode: 'multiply',
-            opacity: 0.28,
-            backgroundImage: NOISE,
-          }}
-        />
-      </div>
+      {/* Fondo: grano fijo + halo cálido desde arriba */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          mixBlendMode: 'overlay',
+          opacity: 0.5,
+          backgroundImage: GRAIN,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          background: 'radial-gradient(120% 90% at 50% 0%,rgba(255,90,22,.10),rgba(19,16,16,0) 62%)',
+        }}
+      />
 
       {/* content */}
       <div style={{ position: 'relative', zIndex: 1 }}>
-        {/* #7 — top marquee, duplicated from the footer at a slightly faster speed */}
-        <Marquee duration={19} border="bottom" fullBleed />
+        {/* cinta superior — franja naranja */}
+        <Marquee variant="bar" duration={21} />
 
-        <div style={{ maxWidth: '480px', margin: '0 auto', padding: '0 22px 56px' }}>
+        <div style={{ maxWidth: '480px', margin: '0 auto', padding: '0 20px 44px' }}>
           <Hero revealed={revealed} />
           <Lineup />
           <Rider />
           {SHOW_FAQ && <Faq />}
           <Rsvp />
+        </div>
 
-          {/* footer marquee — original speed, so the two never sync up */}
-          <div style={{ marginTop: '52px' }}>
-            <Marquee duration={24} border="top" />
-          </div>
+        {/* cinta inferior — velocidad distinta, a todo el ancho */}
+        <div style={{ marginTop: '56px' }}>
+          <Marquee variant="line" duration={27} />
         </div>
       </div>
 
-      {/* Pantalla de acceso, encima de todo hasta que el usuario entra (#1) */}
+      {/* Pantalla de acceso, encima de todo hasta que el usuario entra */}
       {!revealed && <Gate onEnter={() => setRevealed(true)} />}
     </div>
   );

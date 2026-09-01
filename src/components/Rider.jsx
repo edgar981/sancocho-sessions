@@ -1,89 +1,67 @@
 import Reveal from './Reveal.jsx';
 import { EVENT } from '../config.js';
 
-const RULE = '1px solid rgba(20,18,15,.16)';
+const MONO = "'DM Mono', ui-monospace, monospace";
+const RULE = '1px solid rgba(240,231,214,.18)';
 
-const dtStyle = (isLast) => ({
-  fontFamily: '"Space Mono", monospace',
-  fontSize: '10.5px',
-  letterSpacing: '.11em',
-  color: 'rgba(20,18,15,.5)',
-  padding: '13px 14px 13px 0',
+const rowStyle = (last) => ({
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  gap: '3px',
+  padding: '14px 0',
   borderTop: RULE,
-  ...(isLast ? { borderBottom: RULE } : {}),
+  ...(last ? { borderBottom: RULE } : {}),
 });
-
-const ddStyle = (isLast) => ({
-  margin: 0,
-  fontSize: '14px',
-  lineHeight: 1.45,
-  fontWeight: 700,
-  padding: '13px 0',
-  borderTop: RULE,
-  ...(isLast ? { borderBottom: RULE } : {}),
-});
-
-const gray = { color: 'rgba(20,18,15,.58)', fontWeight: 400 };
+const dtStyle = { fontFamily: MONO, fontSize: '9.5px', letterSpacing: '.24em', color: 'rgba(240,231,214,.45)' };
+const termStyle = { margin: 0, fontSize: '26px', lineHeight: 1.05, fontWeight: 700, letterSpacing: 0, textTransform: 'uppercase' };
+const descStyle = { margin: 0, fontFamily: MONO, fontSize: '11.5px', lineHeight: 1.5, color: 'rgba(240,231,214,.58)' };
 
 export default function Rider() {
   return (
-    <Reveal as="section" style={{ padding: '60px 0 0' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '22px' }}>
-        <span
-          style={{
-            fontFamily: '"Space Mono", monospace',
-            fontSize: '11px',
-            letterSpacing: '.18em',
-            color: '#C8271A',
-          }}
-        >
-          RIDER
-        </span>
-        <span style={{ flex: 1, height: '1.5px', background: 'rgba(20,18,15,.22)' }} />
+    <Reveal as="section" style={{ padding: '66px 0 0' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '22px' }}>
+        <span style={{ fontFamily: MONO, fontSize: '10.5px', letterSpacing: '.22em', color: '#FF5A16' }}>02 / RIDER</span>
+        <span style={{ flex: 1, height: '2px', background: 'rgba(240,231,214,.22)' }} />
       </div>
 
-      <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'minmax(96px,auto) 1fr', gap: 0 }}>
-        {/* #9 — BEBIDA */}
-        <dt style={dtStyle(false)}>BEBIDA</dt>
-        <dd style={ddStyle(false)}>
-          Aperol Spritz. <span style={gray}>Máximo 2, si no luego empiezas a verme simpático.</span>
-        </dd>
+      <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: '1fr', gap: 0 }}>
+        <div style={rowStyle(false)}>
+          <dt style={dtStyle}>BEBIDA</dt>
+          <dd style={termStyle}>Aperol Spritz.</dd>
+          <dd style={descStyle}>Máximo 2, si no luego empiezas a verme simpático.</dd>
+        </div>
 
-        <dt style={dtStyle(false)}>MÚSICA</dt>
-        <dd style={ddStyle(false)}>
-          Cero vallenato. <span style={gray}>Se aplica con rigor.</span>
-        </dd>
+        <div style={rowStyle(false)}>
+          <dt style={dtStyle}>MÚSICA</dt>
+          <dd style={termStyle}>Cero vallenato.</dd>
+          <dd style={descStyle}>Se aplica con rigor.</dd>
+        </div>
 
-        {/* #3 — MENÚ */}
-        <dt style={dtStyle(false)}>MENÚ</dt>
-        <dd style={ddStyle(false)}>
-          Todo menos pollo con papas. <span style={gray}>Y desgranado, ni en broma.</span>
-        </dd>
+        <div style={rowStyle(false)}>
+          <dt style={dtStyle}>MENÚ</dt>
+          <dd style={termStyle}>Todo menos pollo con papas.</dd>
+          <dd style={descStyle}>Y desgranado, ni en broma.</dd>
+        </div>
 
-        {/* #7 — DRESS CODE (puede bajar a dos líneas en 390px; no se reduce la fuente) */}
-        <dt style={dtStyle(false)}>DRESS CODE</dt>
-        <dd style={ddStyle(false)}>Todo lo que te pones te queda bien.</dd>
+        <div style={rowStyle(false)}>
+          <dt style={dtStyle}>DRESS CODE</dt>
+          <dd style={termStyle}>Todo lo que te pones te queda bien.</dd>
+        </div>
 
-        <dt style={dtStyle(false)}>HORA</dt>
-        <dd style={ddStyle(false)}>{EVENT.time}</dd>
+        <div style={rowStyle(false)}>
+          <dt style={dtStyle}>HORA</dt>
+          <dd style={termStyle}>{EVENT.time}</dd>
+        </div>
 
-        <dt style={dtStyle(true)}>UBICACIÓN</dt>
-        <dd style={ddStyle(true)}>
-          <a
-            href={EVENT.mapsUrl}
-            target="_blank"
-            rel="noopener"
-            style={{
-              color: '#C8271A',
-              borderBottom: '1.5px solid rgba(200,39,26,.45)',
-              paddingBottom: '1px',
-            }}
-          >
-            {EVENT.venueName}
-          </a>
-          <br />
-          <span style={gray}>{EVENT.venueAddress}</span>
-        </dd>
+        <div style={rowStyle(true)}>
+          <dt style={dtStyle}>UBICACIÓN</dt>
+          <dd style={termStyle}>
+            <a href={EVENT.mapsUrl} target="_blank" rel="noopener" style={{ color: '#FF5A16', borderBottom: '2px solid rgba(255,90,22,.45)' }}>
+              {EVENT.venueName}
+            </a>
+          </dd>
+          <dd style={descStyle}>{EVENT.venueAddress}</dd>
+        </div>
       </dl>
     </Reveal>
   );

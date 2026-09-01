@@ -1,197 +1,182 @@
 import { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 import { EVENT } from '../config.js';
 
+const MONO = "'DM Mono', ui-monospace, monospace";
+
 /**
- * Hero tipográfico (sin copa 3D, #2). El sello "SIN SANCOCHO" se estampa 500ms
- * después de que se revela el hero (`revealed`), una sola vez (#3).
+ * Hero (variante visual, tema oscuro). El sello "SIN SANCOCHO" se estampa
+ * ~480ms después de revelarse el hero (total ~900ms desde el click en la reja),
+ * una sola vez. Con prefers-reduced-motion aparece ya estampado.
  */
 export default function Hero({ revealed }) {
-  const reduce = useReducedMotion();
   const [stampIn, setStampIn] = useState(false);
 
   useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) {
-      setStampIn(true); // sin animación → aparece ya estampado
+      setStampIn(true);
       return;
     }
     if (revealed) {
-      const t = setTimeout(() => setStampIn(true), 500);
+      const t = setTimeout(() => setStampIn(true), 480);
       return () => clearTimeout(t);
     }
-  }, [revealed, reduce]);
+  }, [revealed]);
 
-  // Entrada escalonada del resto del hero (queda resuelto bajo el overlay).
-  const rise = (delay) =>
-    reduce
-      ? {}
-      : {
-          initial: { opacity: 0, y: 18 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.8, ease: [0.2, 0.7, 0.3, 1], delay },
-        };
-
-  const dateLine = `${EVENT.date} · ${EVENT.venueName.toUpperCase()}, ${EVENT.city.toUpperCase()}`;
+  const rise = (delay) => ({ animation: `rise .8s cubic-bezier(.2,.7,.3,1) ${delay}s both` });
+  const venueLine = `${EVENT.venueName}, ${EVENT.city}`.toUpperCase();
 
   return (
     <section
       style={{
-        minHeight: '100svh',
+        minHeight: 'calc(100svh - 38px)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        gap: '14px',
-        padding: '40px 0 32px',
+        gap: '16px',
+        padding: '22px 0 26px',
       }}
     >
       {/* eyebrow */}
-      <motion.div {...rise(0.05)} style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-        <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#C8271A', flex: 'none' }} />
-        <span
-          style={{
-            fontFamily: '"Space Mono", monospace',
-            fontSize: '11px',
-            letterSpacing: '.16em',
-            color: 'rgba(20,18,15,.62)',
-          }}
-        >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', ...rise(0.05) }}>
+        <span style={{ width: '8px', height: '8px', background: '#FF5A16', flex: 'none' }} />
+        <span style={{ fontFamily: MONO, fontSize: '10.5px', letterSpacing: '.2em', color: 'rgba(240,231,214,.62)' }}>
           EVENTO ÚNICO · SOLO UNA FECHA
         </span>
-      </motion.div>
+      </div>
 
-      {/* title + SIN SANCOCHO stamp — afiche tipográfico a todo el ancho */}
-      <div style={{ position: 'relative' }}>
+      {/* title + SIN SANCOCHO stamp */}
+      <div style={{ position: 'relative', margin: '2px 0 0' }}>
         <h1
           style={{
             position: 'relative',
             zIndex: 1,
             margin: 0,
-            // Sin copa, el título llena el ancho: "SANCOCHO" (palabra más larga)
-            // ocupa ~el ancho del contenedor en 390px, con tope para desktop.
-            fontSize: 'clamp(40px,14.3vw,70px)',
-            lineHeight: 0.84,
+            fontSize: 'clamp(76px,25.5vw,116px)',
+            lineHeight: 0.78,
             fontWeight: 900,
-            letterSpacing: '-.045em',
+            letterSpacing: '-.012em',
             textTransform: 'uppercase',
           }}
         >
-          <motion.span style={{ display: 'block' }} {...rise(0.22)}>
-            Sancocho
-          </motion.span>
-          <motion.span style={{ display: 'block', color: '#FF5B04' }} {...rise(0.32)}>
-            Sessions
-          </motion.span>
+          <span style={{ display: 'block', ...rise(0.2) }}>Sancocho</span>
+          <span style={{ display: 'block', color: '#FF5A16', ...rise(0.3) }}>Sessions</span>
         </h1>
 
-        {/* STAMP (#3): textura + multiply, tamaño grande, cruza el título.
-            Animación de estampado disparada por `stampIn` (reveal + 500ms). */}
-        <motion.div
-          initial={{ opacity: 0, scale: 1.3, rotate: -10 }}
-          animate={stampIn ? { opacity: 1, scale: 1, rotate: -10 } : { opacity: 0, scale: 1.3, rotate: -10 }}
-          transition={reduce ? { duration: 0 } : { duration: 0.35, ease: [0.2, 1.4, 0.4, 1] }}
+        {/* Sello: barra oscura con filetes crema, textura de tinta. Se estampa una vez. */}
+        <div
           style={{
             position: 'absolute',
-            left: '3%',
-            top: '12%',
-            width: '94%',
+            left: '-4%',
+            top: '31%',
+            width: '108%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             pointerEvents: 'none',
-            zIndex: 5, // por encima del <h1>
+            zIndex: 5,
             transformOrigin: 'center',
+            opacity: stampIn ? 1 : 0,
+            transform: `rotate(-6.5deg) scale(${stampIn ? 1 : 1.45})`,
+            transition: 'opacity .28s ease, transform .4s cubic-bezier(.2,1.5,.4,1)',
           }}
         >
           <div
             style={{
-              filter: 'url(#stampGrain)', // textura de estampado (grano / bordes irregulares)
-              mixBlendMode: 'multiply', // tinta sobre papel
-              border: '7px solid #C8271A',
-              borderRadius: '7px',
-              padding: '8px 18px 10px',
-              boxShadow: 'inset 0 0 0 3px rgba(200,39,26,.4), 0 5px 18px rgba(20,18,15,.2)',
+              filter: 'url(#ink)',
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'stretch',
+              background: 'rgba(19,16,16,.72)',
             }}
           >
+            <span style={{ height: '3px', background: '#F0E7D6' }} />
             <span
               style={{
                 display: 'block',
-                fontSize: 'clamp(38px,11.4vw,54px)',
-                lineHeight: 1,
-                fontWeight: 900,
-                letterSpacing: '.01em',
+                textAlign: 'center',
+                padding: '7px 0 9px',
+                fontSize: 'clamp(42px,13.5vw,62px)',
+                lineHeight: 0.9,
+                fontWeight: 800,
+                letterSpacing: '.02em',
                 textTransform: 'uppercase',
-                color: '#C8271A',
+                color: '#F0E7D6',
                 whiteSpace: 'nowrap',
               }}
             >
               Sin sancocho
             </span>
+            <span style={{ height: '3px', background: '#F0E7D6' }} />
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* subtitle */}
-      <motion.p
-        {...rise(0.42)}
+      <p
         style={{
-          margin: '2px 0 0',
-          fontSize: '16px',
-          lineHeight: 1.35,
-          fontWeight: 700,
-          letterSpacing: '-.01em',
-          color: 'rgba(20,18,15,.78)',
+          margin: '6px 0 0',
+          fontFamily: MONO,
+          fontSize: '12.5px',
+          lineHeight: 1.45,
+          letterSpacing: '.01em',
+          color: 'rgba(240,231,214,.72)',
+          ...rise(0.42),
         }}
       >
         Vol. 1 — aforo máximo: dos personas.
-      </motion.p>
+      </p>
 
       {/* date band */}
-      <motion.div
-        {...rise(0.5)}
+      <div
         style={{
-          borderTop: '1.5px solid rgba(20,18,15,.22)',
-          borderBottom: '1.5px solid rgba(20,18,15,.22)',
-          padding: '13px 0',
+          display: 'grid',
+          gridTemplateColumns: '1fr auto',
+          gap: '2px 14px',
+          borderTop: '2px solid rgba(240,231,214,.28)',
+          borderBottom: '2px solid rgba(240,231,214,.28)',
+          padding: '11px 0',
+          ...rise(0.5),
         }}
       >
-        <p
-          style={{
-            margin: 0,
-            fontFamily: '"Space Mono", monospace',
-            fontSize: '12.5px',
-            lineHeight: 1.6,
-            letterSpacing: '.04em',
-            color: '#14120F',
-          }}
-        >
-          {dateLine}
-        </p>
-      </motion.div>
+        <span style={{ fontFamily: MONO, fontSize: '11.5px', letterSpacing: '.08em', color: '#F0E7D6' }}>
+          {EVENT.date}
+        </span>
+        <span style={{ fontFamily: MONO, fontSize: '11.5px', letterSpacing: '.08em', color: 'rgba(240,231,214,.6)', textAlign: 'right' }}>
+          {EVENT.time.toUpperCase()}
+        </span>
+        <span style={{ fontFamily: MONO, fontSize: '11.5px', letterSpacing: '.08em', color: 'rgba(240,231,214,.6)' }}>
+          {venueLine}
+        </span>
+      </div>
 
-      {/* RSVP jump button */}
-      <motion.a
+      {/* RSVP jump button — la flecha ↓ se mueve en bucle (#4) */}
+      <a
         href="#rsvp"
-        {...rise(0.6)}
-        whileHover={reduce ? undefined : { backgroundColor: '#FF5B04', color: '#14120F', y: -2 }}
+        className="btn-o"
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '14px',
-          background: '#14120F',
-          color: '#EFE7D8',
-          padding: '19px 24px',
-          borderRadius: '2px',
-          fontSize: '16px',
+          background: '#FF5A16',
+          color: '#131010',
+          padding: '16px 22px',
+          fontSize: '26px',
           fontWeight: 900,
-          letterSpacing: '.06em',
+          letterSpacing: '.02em',
           textTransform: 'uppercase',
           minHeight: '56px',
+          transition: 'background .18s ease, color .18s ease',
+          ...rise(0.6),
         }}
       >
         <span>RSVP</span>
-        <span style={{ fontFamily: '"Space Mono", monospace', fontSize: '15px' }}>↓</span>
-      </motion.a>
+        <span className="rsvp-arrow" style={{ fontFamily: MONO, fontSize: '15px', fontWeight: 500 }}>
+          ↓
+        </span>
+      </a>
     </section>
   );
 }

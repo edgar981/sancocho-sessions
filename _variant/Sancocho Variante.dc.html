@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#131010;color:#F0E7D6;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#FF5A16;text-decoration:none}
+a:hover{color:#F0E7D6}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes stampin{0%{opacity:0;transform:rotate(-6.5deg) scale(1.45)}60%{opacity:1}100%{opacity:1;transform:rotate(-6.5deg) scale(1)}}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .75s cubic-bezier(.2,.7,.3,1),transform .75s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+.gate-actions{flex-direction:column}
+@media(min-width:600px){.gate-actions{flex-direction:row}}
+.btn-o:hover{background:#F0E7D6 !important;color:#131010 !important}
+.btn-g:hover{background:#F0E7D6 !important;color:#131010 !important;border-color:#F0E7D6 !important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}.rv{opacity:1 !important;transform:none !important}}
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;overflow:hidden;background:#131010;font-family:'Big Shoulders Display',system-ui,sans-serif;color:#F0E7D6">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="ink"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="11" result="n"></feTurbulence><feColorMatrix in="n" type="matrix" values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0.55 0 0 0 -0.30" result="m"></feColorMatrix><feComposite in="SourceGraphic" in2="m" operator="out"></feComposite></filter></svg>
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:overlay;opacity:.5;background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.5'/></svg>&quot;)"></div>
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 0%,rgba(255,90,22,.10),rgba(19,16,16,0) 62%)"></div>
+
+<div style="position:relative;z-index:1">
+
+  <div aria-hidden="true" style="display:flex;align-items:center;height:38px;overflow:hidden;border-bottom:1px solid rgba(240,231,214,.2);background:#FF5A16;color:#131010;width:100%">
+    <div style="display:flex;width:max-content;animation:marq 21s linear infinite;font-family:'DM Mono',ui-monospace,monospace;font-size:10.5px;font-weight:500;letter-spacing:.26em">
+      <span style="padding-right:26px;white-space:nowrap">SANCOCHO SESSIONS · VOL. 1 · SIN SANCOCHO · CERO VALLENATO · BOGOTÁ · </span>
+      <span style="padding-right:26px;white-space:nowrap">SANCOCHO SESSIONS · VOL. 1 · SIN SANCOCHO · CERO VALLENATO · BOGOTÁ · </span>
+    </div>
+  </div>
+
+  <div style="max-width:480px;margin:0 auto;padding:0 20px 44px">
+
+    <section style="min-height:calc(100svh - 38px);display:flex;flex-direction:column;justify-content:center;gap:16px;padding:22px 0 26px">
+      <div style="display:flex;align-items:center;gap:10px;animation:rise .8s cubic-bezier(.2,.7,.3,1) .05s both">
+        <span style="width:8px;height:8px;background:#FF5A16;flex:none"></span>
+        <span style="font-family:'DM Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:.2em;color:rgba(240,231,214,.62)">EVENTO ÚNICO · SOLO UNA FECHA</span>
+      </div>
+
+      <div style="position:relative;margin:2px 0 0">
+        <h1 style="position:relative;z-index:1;margin:0;font-size:clamp(76px,25.5vw,116px);line-height:.78;font-weight:900;letter-spacing:-.012em;text-transform:uppercase">
+          <span style="display:block;animation:rise .8s cubic-bezier(.2,.7,.3,1) .2s both">Sancocho</span>
+          <span style="display:block;color:#FF5A16;animation:rise .8s cubic-bezier(.2,.7,.3,1) .3s both">Sessions</span>
+        </h1>
+
+        <div style="{{ stampStyle }}">
+          <div style="filter:url(#ink);width:100%;display:flex;flex-direction:column;align-items:stretch;gap:0;background:rgba(19,16,16,.72);padding:0">
+            <span style="height:3px;background:#F0E7D6"></span>
+            <span style="display:block;text-align:center;padding:7px 0 9px;font-size:clamp(42px,13.5vw,62px);line-height:.9;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:#F0E7D6;white-space:nowrap">Sin sancocho</span>
+            <span style="height:3px;background:#F0E7D6"></span>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin:6px 0 0;font-family:'DM Mono',ui-monospace,monospace;font-size:12.5px;line-height:1.45;letter-spacing:.01em;color:rgba(240,231,214,.72);animation:rise .8s cubic-bezier(.2,.7,.3,1) .42s both">Vol. 1 — aforo máximo: dos personas.</p>
+
+      <div style="display:grid;grid-template-columns:1fr auto;gap:2px 14px;border-top:2px solid rgba(240,231,214,.28);border-bottom:2px solid rgba(240,231,214,.28);padding:11px 0;animation:rise .8s cubic-bezier(.2,.7,.3,1) .5s both">
+        <span style="font-family:'DM Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:.08em;color:#F0E7D6">VIERNES 04 SEPTIEMBRE</span>
+        <span style="font-family:'DM Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:.08em;color:rgba(240,231,214,.6);text-align:right">08:00 PM</span>
+        <span style="font-family:'DM Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:.08em;color:rgba(240,231,214,.6)">BULEVAR SALSA BAR, BOGOTÁ</span>
+      </div>
+
+      <a href="#rsvp" class="btn-o" style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#FF5A16;color:#131010;padding:16px 22px;font-size:26px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;min-height:56px;transition:background .18s ease,color .18s ease;animation:rise .8s cubic-bezier(.2,.7,.3,1) .6s both">
+        <span>RSVP</span>
+        <span style="font-family:'DM Mono',ui-monospace,monospace;font-size:15px;font-weight:500">↓</span>
+      </a>
+    </section>
+
+    <section class="rv" style="padding:60px 0 0">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:30px">
+        <span style="font-family:'DM Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:.22em;color:#FF5A16">01 / LINEUP</span>
+        <span style="flex:1;height:2px;background:rgba(240,231,214,.22)"></span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div>
+          <div style="font-family:'DM Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:.24em;color:rgba(240,231,214,.45);margin-bottom:4px">HEADLINER</div>
+          <div style="font-size:clamp(64px,20vw,92px);line-height:.8;font-weight:900;letter-spacing:-.01em;text-transform:uppercase">Eduardo</div>
+          <div style="font-family:'DM Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:.02em;color:rgba(240,231,214,.6);margin-top:10px">live con campana de salsa</div>
+        </div>
+        <div style="height:1px;background:rgba(240,231,214,.18)"></div>
+        <div>
+          <div style="font-family:'DM Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:.24em;color:rgba(240,231,214,.45);margin-bottom:4px">SUPPORT</div>
+          <div style="font-size:clamp(34px,10.5vw,48px);line-height:.88;font-weight:700;letter-spacing:0;text-transform:uppercase">Edgar <span style="color:#FF5A16">b2b</span> María Alejandra</div>
+        </div>
+      </div>
+      <p style="margin:30px 0 0;font-family:'DM Mono',ui-monospace,monospace;font-size:10.5px;line-height:1.7;letter-spacing:.06em;color:rgba(240,231,214,.5)">Género: Salsa. Sí, salsa.</p>
+    </section>
+
+    <section class="rv" style="padding:66px 0 0">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:22px">
+        <span style="font-family:'DM Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:.22em;color:#FF5A16">02 / RIDER</span>
+        <span style="flex:1;height:2px;background:rgba(240,231,214,.22)"></span>
+      </div>
+      <dl style="margin:0;display:grid;grid-template-columns:1fr;gap:0">
+        <div style="display:grid;grid-template-columns:1fr;gap:3px;padding:14px 0;border-top:1px solid rgba(240,231,214,.18)">
+          <dt style="font-family:'DM Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:.24em;color:rgba(240,231,214,.45)">BEBIDA</dt>
+          <dd style="margin:0;font-size:26px;line-height:1.05;font-weight:700;letter-spacing:0;text-transform:uppercase">Aperol Spritz.</dd>
+          <dd style="margin:0;font-family:'DM Mono',ui-monospace,monospace;font-size:11.5px;line-height:1.5;color:rgba(240,231,214,.58)">Máximo 2, si no luego empiezas a verme simpático.</dd>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:3px;padding:14px 0;border-top:1px solid rgba(240,231,214,.18)">
+          <dt style="font-family:'DM Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:.24em;color:rgba(240,231,214,.45)">MÚSICA</dt>
+          <dd style="margin:0;font-size:26px;line-height:1.05;font-weight:700;letter-spacing:0;text-transform:uppercase">Cero vallenato.</dd>
+          <dd style="margin:0;font-family:'DM Mono',ui-monospace,monospace;font-size:11.5px;line-height:1.5;color:rgba(240,231,214,.58)">Se aplica con rigor.</dd>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:3px;padding:14px 0;border-top:1px solid rgba(240,231,214,.18)">
+          <dt style="font-family:'DM Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:.24em;color:rgba(240,231,214,.45)">MENÚ</dt>
+          <dd style="margin:0;font-size:26px;line-height:1.05;font-weight:700;letter-spacing:0;text-transform:uppercase">Todo menos pollo con papas.</dd>
+          <dd style="margin:0;font-family:'DM Mono',ui-monospace,monospace;font-size:11.5px;line-height:1.5;color:rgba(240,231,214,.58)">Y desgranado, ni en broma.</dd>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:3px;padding:14px 0;border-top:1px solid rgba(240,231,214,.18)">
+          <dt style="font-family:'DM Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:.24em;color:rgba(240,231,214,.45)">DRESS CODE</dt>
+          <dd style="margin:0;font-size:26px;line-height:1.05;font-weight:700;letter-spacing:0;text-transform:uppercase">Todo lo que te pones te queda bien.</dd>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:3px;padding:14px 0;border-top:1px solid rgba(240,231,214,.18)">
+          <dt style="font-family:'DM Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:.24em;color:rgba(240,231,214,.45)">HORA</dt>
+          <dd style="margin:0;font-size:26px;line-height:1.05;font-weight:700;letter-spacing:0;text-transform:uppercase">08:00 pm</dd>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:3px;padding:14px 0;border-top:1px solid rgba(240,231,214,.18);border-bottom:1px solid rgba(240,231,214,.18)">
+          <dt style="font-family:'DM Mono',ui-monospace,monospace;font-size:9.5px;letter-spacing:.24em;color:rgba(240,231,214,.45)">UBICACIÓN</dt>
+          <dd style="margin:0;font-size:26px;line-height:1.05;font-weight:700;letter-spacing:0;text-transform:uppercase"><a href="https://www.google.com/maps/place/BULEVAR+SALSA+BAR/@4.6376224,-74.0639218,17z/data=!3m1!4b1!4m6!3m5!1s0x8e3f9b0010f50f25:0x8d60a67d8493921e!8m2!3d4.6376224!4d-74.0639218!16s%2Fg%2F11yhxmk9vs" target="_blank" rel="noopener" style="color:#FF5A16;border-bottom:2px solid rgba(255,90,22,.45)">Bulevar Salsa Bar</a></dd>
+          <dd style="margin:0;font-family:'DM Mono',ui-monospace,monospace;font-size:11.5px;line-height:1.5;color:rgba(240,231,214,.58)">Calle 51 # 7-57, Chapinero</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section id="rsvp" class="rv" style="padding:70px 0 0;scroll-margin-top:20px">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:18px">
+        <span style="font-family:'DM Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:.22em;color:#FF5A16">03 / RSVP</span>
+        <span style="flex:1;height:2px;background:rgba(240,231,214,.22)"></span>
+      </div>
+      <h2 style="margin:0 0 24px;font-size:clamp(62px,19vw,88px);line-height:.8;font-weight:900;letter-spacing:-.01em;text-transform:uppercase">Confirma tu<br><span style="color:#FF5A16">asistencia</span></h2>
+      <div style="position:relative;display:flex;flex-direction:column;gap:12px;min-height:250px">
+        <a href="https://wa.me/573160498092?text=Confirmo%20asistencia%20a%20Sancocho%20Sessions%20%F0%9F%8D%B9" target="_blank" rel="noopener" class="btn-o" style="display:flex;align-items:center;justify-content:center;background:#FF5A16;color:#131010;padding:18px;font-size:30px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;min-height:60px;transition:background .18s ease,color .18s ease">Sí, voy</a>
+        <sc-if value="{{ settled }}" hint-placeholder-val="{{ false }}">
+          <a href="https://wa.me/573160498092?text=Ese%20d%C3%ADa%20no%20puedo%2C%20pero%20prop%C3%B3n%20otro" target="_blank" rel="noopener" style="position:absolute;left:50%;bottom:0;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;background:transparent;border:2px solid #F0E7D6;color:#F0E7D6;padding:14px 24px;font-family:'DM Mono',ui-monospace,monospace;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;min-height:48px;white-space:nowrap;text-decoration:none">Ese día no, proponme otro</a>
+        </sc-if>
+        <sc-if value="{{ fleeing }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onMouseEnter="{{ flee }}" onClick="{{ onNoClick }}" style="{{ noStyle }}">{{ noLabel }}</button>
+        </sc-if>
+      </div>
+      <p style="margin:24px 0 0;font-family:'DM Mono',ui-monospace,monospace;font-size:10.5px;line-height:1.8;letter-spacing:.06em;color:rgba(240,231,214,.5)">Confirmación por WhatsApp.<br>Sin formularios, sin correos, sin sancocho.</p>
+    </section>
+  </div>
+
+  <div style="margin-top:56px">
+    <div aria-hidden="true" style="display:flex;align-items:center;height:38px;overflow:hidden;border-top:1px solid rgba(240,231,214,.2);border-bottom:1px solid rgba(240,231,214,.2)">
+      <div style="display:flex;width:max-content;animation:marq 27s linear infinite;font-family:'DM Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:.26em;color:rgba(240,231,214,.4)">
+        <span style="padding-right:26px;white-space:nowrap">SANCOCHO SESSIONS · VOL. 1 · SIN SANCOCHO · CERO VALLENATO · BOGOTÁ · </span>
+        <span style="padding-right:26px;white-space:nowrap">SANCOCHO SESSIONS · VOL. 1 · SIN SANCOCHO · CERO VALLENATO · BOGOTÁ · </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<sc-if value="{{ gateOpen }}" hint-placeholder-val="{{ true }}">
+<div role="dialog" aria-label="Control de acceso" style="{{ gateStyle }}">
+  <div aria-hidden="true" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;display:flex;align-items:center;justify-content:center">
+    <span style="font-size:23vw;line-height:.8;font-weight:900;letter-spacing:-.01em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1.5px rgba(240,231,214,.08);white-space:nowrap;transform:rotate(-6.5deg)">Sancocho Sessions</span>
+  </div>
+  <div style="position:absolute;top:0;left:0;right:0;height:38px;background:#FF5A16"></div>
+  <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:26px;width:100%">
+    <div style="font-family:'DM Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.22em;color:rgba(240,231,214,.6)">CONTROL DE ACCESO · LISTA DE INVITADOS: 1</div>
+    <sc-if value="{{ notMimi }}" hint-placeholder-val="{{ false }}">
+      <h2 style="margin:0;max-width:11ch;font-size:clamp(52px,17vw,84px);line-height:.82;font-weight:900;letter-spacing:-.01em;text-transform:uppercase;text-wrap:balance">Entonces este evento no es para ti.</h2>
+      <button type="button" onClick="{{ enter }}" style="background:transparent;border:none;cursor:pointer;font-family:'DM Mono',ui-monospace,monospace;font-size:12.5px;letter-spacing:.08em;color:#FF5A16;padding:10px">bueno, sí soy Mimi →</button>
+    </sc-if>
+    <sc-if value="{{ askMimi }}" hint-placeholder-val="{{ true }}">
+      <h2 style="margin:0;font-size:clamp(84px,29vw,140px);line-height:.78;font-weight:900;letter-spacing:-.02em;text-transform:uppercase">¿Eres<br>Mimi?</h2>
+      <div class="gate-actions" style="display:flex;gap:10px;width:100%;max-width:420px">
+        <button type="button" class="btn-o" onClick="{{ enter }}" style="display:flex;align-items:center;justify-content:center;padding:16px 24px;min-height:58px;font-family:'Big Shoulders Display',sans-serif;font-size:26px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;flex:1 1 0;background:#FF5A16;color:#131010;border:2px solid #FF5A16;transition:background .18s ease,color .18s ease">Sí, soy Mimi</button>
+        <button type="button" class="btn-g" onClick="{{ sayNo }}" style="display:flex;align-items:center;justify-content:center;padding:16px 24px;min-height:58px;font-family:'Big Shoulders Display',sans-serif;font-size:26px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;flex:1 1 0;background:transparent;color:#F0E7D6;border:2px solid rgba(240,231,214,.5);transition:background .18s ease,color .18s ease,border-color .18s ease">No</button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+const NO_LABELS = ['No','¿Segura?','Piénsalo','Última oportunidad','Por los niños del África','Ese día no, proponme otro'];
+const LAST = NO_LABELS.length - 1;
+
+class Component extends DCLogic {
+  state = { gate: 'ask', closing: false, stampIn: false, step: 0, dx: 0, dy: 0 };
+  lastFlee = 0;
+
+  componentDidMount() {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) this.setState({ stampIn: true });
+    this.io = new IntersectionObserver((es) => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); this.io.unobserve(e.target); } });
+    }, { threshold: 0.16 });
+    document.querySelectorAll('.rv').forEach(el => this.io.observe(el));
+  }
+  componentWillUnmount() { if (this.io) this.io.disconnect(); }
+
+  enter = () => {
+    if (this.state.closing) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this.setState({ gate: 'gone', stampIn: true }); return; }
+    this.setState({ closing: true });
+    setTimeout(() => this.setState({ gate: 'gone' }), 420);
+    setTimeout(() => this.setState({ stampIn: true }), 900);
+  };
+
+  flee = () => {
+    const now = performance.now();
+    if (now - this.lastFlee < 300) return;
+    this.lastFlee = now;
+    this.setState(s => {
+      if (s.step >= LAST) return null;
+      const next = s.step + 1;
+      if (next >= LAST) return { step: next, dx: 0, dy: 0 };
+      let dx = (Math.random() * 2 - 1) * 50;
+      if (Math.abs(dx - s.dx) < 40) dx = -dx;
+      return { step: next, dx, dy: -(20 + Math.random() * 100) };
+    });
+  };
+
+  renderVals() {
+    const { gate, closing, stampIn, step, dx, dy } = this.state;
+    const settled = step >= LAST;
+    return {
+      gateOpen: gate !== 'gone',
+      askMimi: gate === 'ask',
+      notMimi: gate === 'no',
+      enter: this.enter,
+      sayNo: () => this.setState({ gate: 'no' }),
+      settled,
+      fleeing: !settled,
+      flee: this.flee,
+      onNoClick: (e) => { e.preventDefault(); this.flee(); },
+      noLabel: NO_LABELS[Math.min(step, LAST)],
+      stampStyle: `position:absolute;left:-4%;top:31%;width:108%;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5;mix-blend-mode:normal;transform-origin:center;opacity:${stampIn ? 1 : 0};transform:rotate(-6.5deg) scale(${stampIn ? 1 : 1.45});transition:opacity .28s ease,transform .4s cubic-bezier(.2,1.5,.4,1)`,
+      gateStyle: `position:fixed;inset:0;z-index:50;background:#131010;color:#F0E7D6;font-family:'Big Shoulders Display',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;text-align:center;overflow:hidden;opacity:${closing ? 0 : 1};transition:opacity .42s ease`,
+      noStyle: `position:absolute;left:50%;bottom:0;transform:translateX(-50%) translate(${dx}px,${dy}px);transition:transform .32s cubic-bezier(.2,.9,.3,1),color .25s ease,border-color .25s ease;display:flex;align-items:center;justify-content:center;background:transparent;border:2px solid rgba(240,231,214,.2);color:rgba(240,231,214,.45);padding:14px 24px;cursor:pointer;font-family:'DM Mono',ui-monospace,monospace;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;min-height:48px;white-space:nowrap;touch-action:manipulation`,
+    };
+  }
+}
+</script>
+</body>
+</html>
