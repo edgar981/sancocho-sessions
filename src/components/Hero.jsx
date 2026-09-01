@@ -1,11 +1,27 @@
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import AperolGlass from './AperolGlass.jsx';
 import { EVENT } from '../config.js';
 
-export default function Hero() {
+/**
+ * Hero tipográfico (sin copa 3D, #2). El sello "SIN SANCOCHO" se estampa 500ms
+ * después de que se revela el hero (`revealed`), una sola vez (#3).
+ */
+export default function Hero({ revealed }) {
   const reduce = useReducedMotion();
+  const [stampIn, setStampIn] = useState(false);
 
-  // Staggered mount reveal (mirrors the design's `rise` keyframe + delays).
+  useEffect(() => {
+    if (reduce) {
+      setStampIn(true); // sin animación → aparece ya estampado
+      return;
+    }
+    if (revealed) {
+      const t = setTimeout(() => setStampIn(true), 500);
+      return () => clearTimeout(t);
+    }
+  }, [revealed, reduce]);
+
+  // Entrada escalonada del resto del hero (queda resuelto bajo el overlay).
   const rise = (delay) =>
     reduce
       ? {}
@@ -29,19 +45,8 @@ export default function Hero() {
       }}
     >
       {/* eyebrow */}
-      <motion.div
-        {...rise(0.05)}
-        style={{ display: 'flex', alignItems: 'center', gap: '9px' }}
-      >
-        <span
-          style={{
-            width: '7px',
-            height: '7px',
-            borderRadius: '50%',
-            background: '#C8271A',
-            flex: 'none',
-          }}
-        />
+      <motion.div {...rise(0.05)} style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
+        <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#C8271A', flex: 'none' }} />
         <span
           style={{
             fontFamily: '"Space Mono", monospace',
@@ -54,40 +59,16 @@ export default function Hero() {
         </span>
       </motion.div>
 
-      {/* 3D Aperol glass (with static fallback baked in).
-          Kept OUT of the entrance-fade on purpose (#3): the glass must never be
-          hidden by an animation that didn't run — it appears as soon as it loads. */}
-      <div
-        style={{ position: 'relative', height: '25svh', minHeight: '160px', margin: '0 -8px' }}
-      >
-        <AperolGlass />
-        <div
-          style={{
-            position: 'absolute',
-            left: '50%',
-            bottom: '2px',
-            width: '56%',
-            height: '16px',
-            transform: 'translateX(-50%)',
-            background:
-              'radial-gradient(ellipse at center,rgba(20,18,15,.22),rgba(20,18,15,0) 70%)',
-            pointerEvents: 'none',
-          }}
-        />
-      </div>
-
-      {/* title + SIN SANCOCHO stamp */}
+      {/* title + SIN SANCOCHO stamp — afiche tipográfico a todo el ancho */}
       <div style={{ position: 'relative' }}>
         <h1
           style={{
             position: 'relative',
             zIndex: 1,
             margin: 0,
-            // "SANCOCHO" es la palabra más ancha; a 16.6vw ocupaba el ancho
-            // completo del viewport y la última O se salía en el teléfono.
-            // 14vw (con tope 68px) la mantiene dentro del contenedor en todos
-            // los anchos de teléfono, sin romper la escala del diseño.
-            fontSize: 'clamp(40px,14vw,68px)',
+            // Sin copa, el título llena el ancho: "SANCOCHO" (palabra más larga)
+            // ocupa ~el ancho del contenedor en 390px, con tope para desktop.
+            fontSize: 'clamp(40px,14.3vw,70px)',
             lineHeight: 0.84,
             fontWeight: 900,
             letterSpacing: '-.045em',
@@ -102,17 +83,12 @@ export default function Hero() {
           </motion.span>
         </h1>
 
-        {/* --- STAMP (#8): protagonista. Cruza ~94% del hero como un "CANCELADO",
-            por encima del <h1>, color sólido (sin multiply), borde grueso y halo
-            crema para leerse sin esfuerzo incluso sobre las letras negras. --- */}
+        {/* STAMP (#3): textura + multiply, tamaño grande, cruza el título.
+            Animación de estampado disparada por `stampIn` (reveal + 500ms). */}
         <motion.div
-          initial={
-            reduce
-              ? { opacity: 1, scale: 1, rotate: -10 }
-              : { opacity: 0, scale: 1.35, rotate: -10 }
-          }
-          animate={{ opacity: 1, scale: 1, rotate: -10 }}
-          transition={reduce ? { duration: 0 } : { duration: 0.5, ease: [0.3, 1.4, 0.5, 1], delay: 0.6 }}
+          initial={{ opacity: 0, scale: 1.3, rotate: -10 }}
+          animate={stampIn ? { opacity: 1, scale: 1, rotate: -10 } : { opacity: 0, scale: 1.3, rotate: -10 }}
+          transition={reduce ? { duration: 0 } : { duration: 0.35, ease: [0.2, 1.4, 0.4, 1] }}
           style={{
             position: 'absolute',
             left: '3%',
@@ -122,17 +98,18 @@ export default function Hero() {
             alignItems: 'center',
             justifyContent: 'center',
             pointerEvents: 'none',
-            zIndex: 5, // above the <h1>
+            zIndex: 5, // por encima del <h1>
             transformOrigin: 'center',
           }}
         >
           <div
             style={{
+              filter: 'url(#stampGrain)', // textura de estampado (grano / bordes irregulares)
+              mixBlendMode: 'multiply', // tinta sobre papel
               border: '7px solid #C8271A',
               borderRadius: '7px',
               padding: '8px 18px 10px',
-              boxShadow:
-                'inset 0 0 0 3px rgba(200,39,26,.45), 0 6px 20px rgba(20,18,15,.16)',
+              boxShadow: 'inset 0 0 0 3px rgba(200,39,26,.4), 0 5px 18px rgba(20,18,15,.2)',
             }}
           >
             <span
@@ -145,8 +122,6 @@ export default function Hero() {
                 textTransform: 'uppercase',
                 color: '#C8271A',
                 whiteSpace: 'nowrap',
-                // halo crema: sube el contraste del rojo sobre el título negro
-                textShadow: '0 1px 0 rgba(239,231,216,.8), 0 0 6px rgba(239,231,216,.6)',
               }}
             >
               Sin sancocho

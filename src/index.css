@@ -23,6 +23,21 @@ a:hover {
   color: #ff5b04;
 }
 
+/* ---- Access gate: botones apilados en móvil, lado a lado en desktop ---- */
+.gate-actions {
+  flex-direction: column;
+}
+@media (min-width: 640px) {
+  .gate-actions {
+    flex-direction: row;
+  }
+}
+.gate-btn:hover {
+  background: #14120f !important;
+  color: #efe7d8 !important;
+  border-color: #14120f !important;
+}
+
 /* ---- Keyframes still driven by CSS (marquee + ambient background blobs) ---- */
 @keyframes marq {
   from {

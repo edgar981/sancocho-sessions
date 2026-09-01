@@ -1,15 +1,21 @@
+import { useState } from 'react';
 import Marquee from './components/Marquee.jsx';
 import Hero from './components/Hero.jsx';
 import Lineup from './components/Lineup.jsx';
 import Rider from './components/Rider.jsx';
 import Rsvp from './components/Rsvp.jsx';
 import Faq from './components/Faq.jsx';
+import Gate from './components/Gate.jsx';
 import { SHOW_FAQ } from './config.js';
 
 const NOISE =
   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.42'/></svg>\")";
 
 export default function App() {
+  // El hero se renderiza siempre; la pantalla de acceso (Gate) va encima hasta
+  // que el usuario entra. Sin storage: se muestra en cada carga (#1).
+  const [revealed, setRevealed] = useState(false);
+
   return (
     <div
       style={{
@@ -21,6 +27,20 @@ export default function App() {
         color: '#14120F',
       }}
     >
+      {/* SVG filter del sello (grano / bordes irregulares de estampado) */}
+      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
+        <filter id="stampGrain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" seed="7" result="n" />
+          <feColorMatrix
+            in="n"
+            type="matrix"
+            values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 1.4 0 0 0 -0.42"
+            result="m"
+          />
+          <feComposite in="SourceGraphic" in2="m" operator="out" />
+        </filter>
+      </svg>
+
       {/* Ambient background: two drifting warm blobs + a subtle grain overlay */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
         <div
@@ -66,7 +86,7 @@ export default function App() {
         <Marquee duration={19} border="bottom" fullBleed />
 
         <div style={{ maxWidth: '480px', margin: '0 auto', padding: '0 22px 56px' }}>
-          <Hero />
+          <Hero revealed={revealed} />
           <Lineup />
           <Rider />
           {SHOW_FAQ && <Faq />}
@@ -78,6 +98,9 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* Pantalla de acceso, encima de todo hasta que el usuario entra (#1) */}
+      {!revealed && <Gate onEnter={() => setRevealed(true)} />}
     </div>
   );
 }
