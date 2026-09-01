@@ -5,7 +5,7 @@
 
 export const EVENT = {
   // Línea de fecha del hero, en MAYÚSCULAS (así aparece tal cual).
-  date: 'VIERNES 04 SEPTIEMBRE',
+  date: 'SÁBADO 12 SEPTIEMBRE',
 
   // Hora (fila HORA del rider). Escríbela como quieras verla.
   time: '08:30 pm',
