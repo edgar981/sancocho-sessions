@@ -1,49 +1,66 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { waLink, MESSAGES } from '../config.js';
 
-// Escalating labels for the "No" — already specified by the design.
-const NO_LABELS = ['No', '¿Segura?', 'Piénsalo', 'Última oportunidad', 'Ese día no, proponme otro'];
+// #5 — 6 etiquetas. La última es el enlace real (deja de huir).
+const NO_LABELS = [
+  'No',
+  '¿Segura?',
+  'Piénsalo',
+  'Última oportunidad',
+  'Por los niños del África',
+  'Ese día no, proponme otro',
+];
 const LAST = NO_LABELS.length - 1;
+
+// Contenedor con altura fija y desplazamiento SIEMPRE hacia arriba: el botón
+// nunca baja de su ancla (bottom:0), así que jamás tapa el texto de confirmación.
+const CONTAINER_H = 250;
 
 export default function Rsvp() {
   const reduce = useReducedMotion();
-  const [step, setStep] = useState(0);
-  const [offset, setOffset] = useState({ dx: 0, dy: 0 });
+  const [st, setSt] = useState({ step: 0, dx: 0, dy: 0 });
+  const lastFlee = useRef(0);
 
-  const settled = step >= LAST;
+  const settled = st.step >= LAST;
 
-  // Same dodge logic as the design: nudge to a fresh random spot each try,
-  // and once we reach the last step, snap back to center and become a link.
-  const flee = (e) => {
-    if (step >= LAST) return;
-    if (e && (e.type === 'touchstart' || e.type === 'click')) e.preventDefault();
-    const next = step + 1;
-    if (next >= LAST) {
-      setStep(next);
-      setOffset({ dx: 0, dy: 0 });
-      return;
-    }
-    const r = (m) => (Math.random() * 2 - 1) * m;
-    let dx = r(100);
-    const dy = r(56);
-    if (Math.abs(dx - offset.dx) < 60) dx = -dx;
-    setStep(next);
-    setOffset({ dx, dy });
+  // #1 — un toque = un incremento. Colapsamos eventos duplicados de una misma
+  // interacción (en móvil un tap dispara touch + click emulado). El debounce
+  // por tiempo lo hace robusto sin depender de preventDefault (que React vuelve
+  // pasivo en touchstart).
+  const flee = () => {
+    const now = performance.now();
+    if (now - lastFlee.current < 300) return;
+    lastFlee.current = now;
+
+    setSt((s) => {
+      if (s.step >= LAST) return s;
+      const next = s.step + 1;
+      if (next >= LAST) return { step: next, dx: 0, dy: 0 }; // estado final: centrado
+      let dx = (Math.random() * 2 - 1) * 50; // ±50px: cabe incluso la etiqueta más larga
+      if (Math.abs(dx - s.dx) < 40) dx = -dx;
+      const dy = -(20 + Math.random() * 100); // -20..-120px: SOLO hacia arriba, dentro del área
+      return { step: next, dx, dy };
+    });
   };
 
-  // "No" styling — black (#14120F) in the settled state instead of red.
+  const onClick = (e) => {
+    e.preventDefault();
+    flee();
+  };
+
   const noStyle = {
     position: 'absolute',
     left: '50%',
     bottom: 0,
-    transform: `translateX(-50%) translate(${offset.dx}px, ${offset.dy}px)`,
+    transform: `translateX(-50%) translate(${st.dx}px, ${st.dy}px)`,
     transition:
       'transform .32s cubic-bezier(.2,.9,.3,1), color .25s ease, border-color .25s ease',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     background: 'transparent',
+    // #6 (ronda 1): negro, nunca rojo
     border: settled ? '1.5px solid #14120F' : '1.5px solid rgba(20,18,15,.16)',
     color: settled ? '#14120F' : 'rgba(20,18,15,.45)',
     padding: '16px 26px',
@@ -61,7 +78,7 @@ export default function Rsvp() {
     textDecoration: 'none',
   };
 
-  const noLabel = NO_LABELS[Math.min(step, LAST)];
+  const noLabel = NO_LABELS[Math.min(st.step, LAST)];
 
   return (
     <section id="rsvp" style={{ padding: '64px 0 0', scrollMarginTop: '20px' }}>
@@ -86,7 +103,7 @@ export default function Rsvp() {
           display: 'flex',
           flexDirection: 'column',
           gap: '12px',
-          minHeight: '240px',
+          minHeight: `${CONTAINER_H}px`,
         }}
       >
         {/* "Sí, voy" — main CTA, opens WhatsApp prefilled */}
@@ -113,7 +130,7 @@ export default function Rsvp() {
           Sí, voy
         </motion.a>
 
-        {/* "No" — flees 4 labels, then settles into a REAL wa.me link. */}
+        {/* "No" — huye (siempre hacia arriba, dentro del área) y al final es un wa.me real */}
         {settled ? (
           <a href={waLink(MESSAGES.no)} target="_blank" rel="noopener" style={noStyle}>
             {noLabel}
@@ -122,8 +139,7 @@ export default function Rsvp() {
           <button
             type="button"
             onMouseEnter={flee}
-            onTouchStart={flee}
-            onClick={flee}
+            onClick={onClick}
             style={noStyle}
           >
             {noLabel}

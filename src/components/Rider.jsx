@@ -43,9 +43,10 @@ export default function Rider() {
       </div>
 
       <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'minmax(96px,auto) 1fr', gap: 0 }}>
+        {/* #9 — BEBIDA */}
         <dt style={dtStyle(false)}>BEBIDA</dt>
         <dd style={ddStyle(false)}>
-          Aperol Spritz <span style={gray}>(garantizado, sin excepciones)</span>
+          Aperol Spritz. <span style={gray}>Máximo 2, si no luego empiezas a verme simpático.</span>
         </dd>
 
         <dt style={dtStyle(false)}>MÚSICA</dt>
@@ -56,12 +57,12 @@ export default function Rider() {
         {/* #3 — MENÚ */}
         <dt style={dtStyle(false)}>MENÚ</dt>
         <dd style={ddStyle(false)}>
-          Todo menos pollo con papas. <span style={gray}>Y desgranado, ni de riesgos.</span>
+          Todo menos pollo con papas. <span style={gray}>Y desgranado, ni en broma.</span>
         </dd>
 
-        {/* #4 — DRESS CODE */}
+        {/* #7 — DRESS CODE (puede bajar a dos líneas en 390px; no se reduce la fuente) */}
         <dt style={dtStyle(false)}>DRESS CODE</dt>
-        <dd style={ddStyle(false)}>Todo te luce.</dd>
+        <dd style={ddStyle(false)}>Todo lo que te pones te queda bien.</dd>
 
         <dt style={dtStyle(false)}>HORA</dt>
         <dd style={ddStyle(false)}>{EVENT.time}</dd>

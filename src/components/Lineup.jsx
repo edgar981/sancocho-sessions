@@ -94,7 +94,7 @@ export default function Lineup() {
           textAlign: 'center',
         }}
       >
-        Género: salsa. Sí, salsa.
+        Género: Salsa. Sí, salsa.
       </p>
     </Reveal>
   );

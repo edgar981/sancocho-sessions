@@ -54,9 +54,10 @@ export default function Hero() {
         </span>
       </motion.div>
 
-      {/* 3D Aperol glass (with static fallback baked in) */}
-      <motion.div
-        {...rise(0.12)}
+      {/* 3D Aperol glass (with static fallback baked in).
+          Kept OUT of the entrance-fade on purpose (#3): the glass must never be
+          hidden by an animation that didn't run — it appears as soon as it loads. */}
+      <div
         style={{ position: 'relative', height: '25svh', minHeight: '160px', margin: '0 -8px' }}
       >
         <AperolGlass />
@@ -73,7 +74,7 @@ export default function Hero() {
             pointerEvents: 'none',
           }}
         />
-      </motion.div>
+      </div>
 
       {/* title + SIN SANCOCHO stamp */}
       <div style={{ position: 'relative' }}>
@@ -82,7 +83,11 @@ export default function Hero() {
             position: 'relative',
             zIndex: 1,
             margin: 0,
-            fontSize: 'clamp(56px,16.6vw,86px)',
+            // "SANCOCHO" es la palabra más ancha; a 16.6vw ocupaba el ancho
+            // completo del viewport y la última O se salía en el teléfono.
+            // 14vw (con tope 68px) la mantiene dentro del contenedor en todos
+            // los anchos de teléfono, sin romper la escala del diseño.
+            fontSize: 'clamp(40px,14vw,68px)',
             lineHeight: 0.84,
             fontWeight: 900,
             letterSpacing: '-.045em',
@@ -97,20 +102,22 @@ export default function Hero() {
           </motion.span>
         </h1>
 
-        {/* --- STAMP: raised above <h1>, ~30% larger, -10°, shadow + multiply --- */}
+        {/* --- STAMP (#8): protagonista. Cruza ~94% del hero como un "CANCELADO",
+            por encima del <h1>, color sólido (sin multiply), borde grueso y halo
+            crema para leerse sin esfuerzo incluso sobre las letras negras. --- */}
         <motion.div
           initial={
             reduce
               ? { opacity: 1, scale: 1, rotate: -10 }
-              : { opacity: 0, scale: 1.5, rotate: -10 }
+              : { opacity: 0, scale: 1.35, rotate: -10 }
           }
           animate={{ opacity: 1, scale: 1, rotate: -10 }}
-          transition={reduce ? { duration: 0 } : { duration: 0.5, ease: [0.3, 1.4, 0.5, 1], delay: 0.95 }}
+          transition={reduce ? { duration: 0 } : { duration: 0.5, ease: [0.3, 1.4, 0.5, 1], delay: 0.6 }}
           style={{
             position: 'absolute',
-            left: '2%',
-            top: '-15%',
-            width: '92%',
+            left: '3%',
+            top: '12%',
+            width: '94%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -121,25 +128,25 @@ export default function Hero() {
         >
           <div
             style={{
-              filter: 'url(#stampGrain)',
-              mixBlendMode: 'multiply', // stamped-into-the-paper look on cream
-              border: '5px solid #C8271A',
-              borderRadius: '6px',
-              padding: '9px 18px 8px',
+              border: '7px solid #C8271A',
+              borderRadius: '7px',
+              padding: '8px 18px 10px',
               boxShadow:
-                'inset 0 0 0 2px rgba(200,39,26,.35), 0 4px 16px rgba(20,18,15,.22)',
+                'inset 0 0 0 3px rgba(200,39,26,.45), 0 6px 20px rgba(20,18,15,.16)',
             }}
           >
             <span
               style={{
                 display: 'block',
-                fontSize: 'clamp(31px,9.6vw,49px)', // ~30% larger than before
+                fontSize: 'clamp(38px,11.4vw,54px)',
                 lineHeight: 1,
                 fontWeight: 900,
                 letterSpacing: '.01em',
                 textTransform: 'uppercase',
                 color: '#C8271A',
                 whiteSpace: 'nowrap',
+                // halo crema: sube el contraste del rojo sobre el título negro
+                textShadow: '0 1px 0 rgba(239,231,216,.8), 0 0 6px rgba(239,231,216,.6)',
               }}
             >
               Sin sancocho

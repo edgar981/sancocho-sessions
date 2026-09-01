@@ -21,20 +21,6 @@ export default function App() {
         color: '#14120F',
       }}
     >
-      {/* SVG filter used by the SIN SANCOCHO stamp (grainy, stamped edges) */}
-      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
-        <filter id="stampGrain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" seed="7" result="n" />
-          <feColorMatrix
-            in="n"
-            type="matrix"
-            values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 1.4 0 0 0 -0.42"
-            result="m"
-          />
-          <feComposite in="SourceGraphic" in2="m" operator="out" />
-        </filter>
-      </svg>
-
       {/* Ambient background: two drifting warm blobs + a subtle grain overlay */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
         <div

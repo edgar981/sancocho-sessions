@@ -2,21 +2,22 @@ const TEXT = 'SANCOCHO SESSIONS · VOL. 1 · SIN SANCOCHO · CERO VALLENATO · B
 
 /**
  * Infinite ticker. Two identical spans + translateX(-50%) = seamless loop.
- * `duration` sets the speed — top and bottom ribbons use different values on
- * purpose so the two never look synced. `border` picks which edge gets the rule.
+ * `duration` sets the speed — top/bottom use different values so they never
+ * look synced. The band has a FIXED height and centers the text vertically
+ * (#4), so both ribbons share the same optical padding.
  */
 export default function Marquee({ duration = 24, border = 'top', fullBleed = false }) {
-  const borderStyle =
-    border === 'top'
-      ? { borderTop: '1.5px solid rgba(20,18,15,.18)', paddingTop: '16px' }
-      : { borderBottom: '1.5px solid rgba(20,18,15,.18)', paddingBottom: '16px' };
+  const borderKey = border === 'top' ? 'borderTop' : 'borderBottom';
 
   return (
     <div
       aria-hidden="true"
       style={{
+        display: 'flex',
+        alignItems: 'center', // vertical centering
+        height: '44px', // defined band height
         overflow: 'hidden',
-        ...borderStyle,
+        [borderKey]: '1.5px solid rgba(20,18,15,.18)',
         // full-bleed top ribbon spans the viewport even inside the 480px column
         ...(fullBleed
           ? { width: '100vw', position: 'relative', left: '50%', transform: 'translateX(-50%)' }
